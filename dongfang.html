@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>东方神鼋 - 白酒特惠</title>
+    <style>
+        :root {
+            --jade-green: #009B77;     /* 翡翠绿 */
+            --dark-jade: #007D5E;       /* 深翡翠 */
+            --light-jade: #e0f2f1;     /* 浅翡翠 */
+            --gold: #D4AF37;            /* 点缀金色 */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: '微软雅黑', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--light-jade) 0%, #f8f9fa 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .brand {
+            font-family: '华文行楷', cursive;
+            font-size: 2.8rem;
+            color: var(--dark-jade);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            letter-spacing: 3px;
+            position: relative;
+        }
+
+        .brand::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--gold);
+        }
+
+        .coupon-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 15px 0;
+            box-shadow: 0 5px 20px rgba(0,155,119,0.1);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .coupon-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .coupon-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--jade-green), var(--dark-jade));
+        }
+
+        .coupon-value {
+            color: var(--dark-jade);
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .coupon-value::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--gold);
+        }
+
+        .coupon-info {
+            margin: 15px 0;
+            color: #555;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .expire-date {
+            color: #e67e22;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .claim-btn {
+            background: var(--jade-green);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .claim-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, 
+                transparent 25%, 
+                rgba(255,255,255,0.2) 50%, 
+                transparent 75%);
+            transform: rotate(45deg);
+            transition: all 0.5s;
+        }
+
+        .claim-btn:hover::after {
+            left: 150%;
+        }
+
+        .claim-btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+
+        .success-toast {
+            position: fixed;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--jade-green);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            animation: slideDown 2s forwards;
+        }
+
+        @keyframes slideDown {
+            0% { top: -50px; }
+            20% { top: 20px; }
+            80% { top: 20px; }
+            100% { top: -50px; }
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 1200px;
+            }
+            .coupons-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
+            .brand {
+                font-size: 3.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="brand">东方神鼋</h1>
+            <p class="subtitle">千年传承 玉液琼浆</p>
+        </header>
+
+        <div class="coupons-container">
+            <!-- 优惠券模板 -->
+            <div class="coupon-card">
+                <div class="coupon-value">¥100</div>
+                <div class="coupon-info">
+                    <p>满500元立减现金</p>
+                    <p>全系列产品通用</p>
+                </div>
+                <p class="expire-date">有效期至：2025-12-31</p>
+                <button class="claim-btn" onclick="claimCoupon(this)">立即领取</button>
+            </div>
+        </div>
+
+            <div class="coupon-card eco-card">
+                <div class="eco-badge">生态守护计划</div>
+                <h3>每买一瓶 种植一树</h3>
+                <div class="eco-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">58,692</div>
+                        <div class="stat-label">已种植树木</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">326</div>
+                        <div class="stat-label">保护物种</div>
+                    </div>
+                </div>
+                <p class="coupon-info">
+                    参与即赠「生态守护者」电子勋章+50元优惠券
+                </p>
+                <button class="claim-btn" onclick="claimCoupon(this)">立即参与</button>
+                <a class="learn-more" onclick="showEcoDetail()">了解项目详情</a>
+            </div>
+            
+            <div class="coupon-card eco-card">
+                <div class="eco-badge">酒瓶回收计划</div>
+                <h3>返还空瓶享优惠</h3>
+                <div class="coupon-info">
+                    <p>✓ 返还1个空瓶立减30元</p>
+                    <p>✓ 返还3个空瓶赠定制酒具</p>
+                    <p>✓ 可累计使用</p>
+                </div>
+                <p class="expire-date">长期有效</p>
+                <button class="claim-btn" onclick="claimCoupon(this)">预约回收</button>
+                <a class="learn-more" onclick="showRecycleDetail()">查看回收流程</a>
+            </div>
+        </div>
+
+    <script>
+        function claimCoupon(btn) {
+            // 显示成功提示
+            const toast = document.createElement('div');
+            toast.className = 'success-toast';
+            toast.textContent = '🎉 领取成功！前往我的账户查看';
+            document.body.appendChild(toast);
+
+            // 禁用按钮
+            btn.disabled = true;
+            btn.textContent = '已领取';
+            
+            // 3秒后移除提示
+            setTimeout(() => {
+                toast.remove();
+            }, 2000);
+
+            // 这里可以添加实际领取逻辑
+            // fetch('/api/claim', { ... })
+        }
+
+        function showEcoDetail() {
+        alert('生态守护计划详情：\n\n1. 与自然保护区合作开展植树造林\n2. 每售出一瓶捐赠3元生态基金\n3. 每月更新生态保护进展报告');
+    }
+
+    function showRecycleDetail() {
+        alert('酒瓶回收流程：\n\n1. 在线预约回收服务\n2. 顺丰免费上门收取\n3. 空瓶经专业清洗后循环利用\n4. 环保积分实时到账');
+    }
+
+    // 更新领取成功提示
+    function claimCoupon(btn) {
+        const toast = document.createElement('div');
+        toast.className = 'success-toast';
+        toast.textContent = btn.classList.contains('eco-card') ? 
+            '🌳 感谢您为环保助力！' : 
+            '🎉 领取成功！前往我的账户查看';
+        
+        document.body.appendChild(toast);
+        btn.disabled = true;
+        btn.innerHTML = btn.classList.contains('eco-card') ? 
+            '✅ 已参与' : 
+            '✅ 已领取';
+
+        setTimeout(() => toast.remove(), 2000);
+    }
+    </script>
+</body>
+</html>
